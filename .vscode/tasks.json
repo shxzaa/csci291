@@ -1,43 +1,99 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
-// Define constants
 #define ESPRESSO_BEANS 8
 #define ESPRESSO_WATER 30
+#define ESPRESSO_MILK 0
+#define ESPRESSO_SYRUP 0
 #define ESPRESSO_PRICE 3.5
 
 #define CAPPUCCINO_BEANS 8
 #define CAPPUCCINO_WATER 30
 #define CAPPUCCINO_MILK 70
+#define CAPPUCCINO_SYRUP 0
 #define CAPPUCCINO_PRICE 4.5
 
 #define MOCHA_BEANS 8
-#define MOCHA_WATER 39
-#define MOCHA_MILK 160
-#define MOCHA_SYRUP 30
+#define MOCHA_WATER 30
+#define MOCHA_MILK 0
+#define MOCHA_SYRUP 160
 #define MOCHA_PRICE 5.5
 
-#define LOW_BEANS 10
-#define LOW_WATER 50
-#define LOW_MILK 100
-#define LOW_SYRUP 20
+#define ADMIN_PASSWORD "admin123"
+#define THRESHOLD_BEANS 5
+#define THRESHOLD_WATER 10
+#define THRESHOLD_MILK 5
+#define THRESHOLD_SYRUP 30
 
-#define ADMIN_PASSWORD 1234
+float total_amount = 0;
+int beans_quantity = 50;
+int water_quantity = 50;
+int milk_quantity = 50;
+int syrup_quantity = 50;
 
-// Ingredient quantities in the machine
-float beans = 100;
-float water = 500;
-float milk = 300;
-float syrup = 100;
-float total_amount = 0.0; // Total sales
+void order_coffee();
+void admin_mode();
+void display_quantities();
+void replenish_ingredients();
+void change_coffee_price();
+void check_thresholds();
 
-// Function to check if coffee can be served based on available ingredients
-void displayMenu() {
-    printf("Coffee Menu:\n");
+int main() {
+    int choice;
     
-    // Check if Espresso can be served
-    if (beans >= ESPRESSO_BEANS && water >= ESPRESSO_WATER) {
-        printf("%-12s AED %.2f\n", "1. Espresso", ESPRESSO_PRICE);
-    } else {
-        printf("%-12s %s\n", "1. Espresso", "Unavailable due to insufficient ingredients");
+    while (1) {
+        printf("\nCoffee Maker Menu:\n");
+        printf("1. Order a coffee type\n");
+        printf("2. Admin mode for the coffee maker operator\n");
+        printf("3. End the application execution\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+        
+        switch (choice) {
+            case 1:
+                order_coffee();
+                break;
+            case 2:
+                admin_mode();
+                break;
+            case 3:
+                printf("Exiting the coffee maker application.\n");
+                return 0;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+}
+
+void order_coffee() {
+    int coffee_choice, payment_choice;
+    float total_price;
+    int beans_used, water_used, milk_used, syrup_used;
+
+    while (1) {
+        printf("\nAvailable Coffee Types:\n");
+        
+        // Display available coffees
+        if (beans_quantity >= ESPRESSO_BEANS && water_quantity >= ESPRESSO_WATER) {
+            printf("1. Espresso (AED %.2f) - Available\n", ESPRESSO_PRICE);
+        } else {
+            printf("1. Espresso (AED %.2f) - Unavailable due to temporarily insufficient ingredients\n", ESPRESSO_PRICE);
+        }
+        if (beans_quantity >= CAPPUCCINO_BEANS && water_quantity >= CAPPUCCINO_WATER && milk_quantity >= CAPPUCCINO_MILK) {
+            printf("2. Cappuccino (AED %.2f) - Available\n", CAPPUCCINO_PRICE);
+        } else {
+            printf("2. Cappuccino (AED %.2f) - Unavailable due to temporarily insufficient ingredients\n", CAPPUCCINO_PRICE);
+        }
+        
+        if (beans_quantity >= MOCHA_BEANS && water_quantity >= MOCHA_WATER && syrup_quantity >= MOCHA_SYRUP) {
+            printf("3. Mocha (AED %.2f) - Available\n", MOCHA_PRICE);
+        } else {
+            printf("3. Mocha (AED %.2f) - Unavailable due to temporarily insufficient ingredients\n", MOCHA_PRICE);
+        }
+
+        printf("0. Exit ordering\n");
+        printf("Select your coffee type: ");
+        scanf("%d", &coffee_choice);
     }
 }
