@@ -17,9 +17,9 @@
 #define CAPPUCCINO_PRICE 4.5
 
 #define MOCHA_BEANS 8
-#define MOCHA_WATER 30
-#define MOCHA_MILK 0
-#define MOCHA_SYRUP 160
+#define MOCHA_WATER 39
+#define MOCHA_MILK 160
+#define MOCHA_SYRUP 30
 #define MOCHA_PRICE 5.5
 
 // Admin constants
@@ -44,12 +44,12 @@ void replenish_ingredients();
 void change_coffee_price();
 void check_thresholds();
 
-int main() 
-{
+int main()
+ {
     int choice;
 
-    while (1)
-     {
+    while (1) 
+    {
         printf("\nCoffee Maker Menu:\n");
         printf("1. Order a coffee type\n");
         printf("2. Admin mode\n");
@@ -92,7 +92,7 @@ void order_coffee()
         printf("\nAvailable Coffee Types:\n");
         
         // Display available coffees
-        if (beans_quantity >= ESPRESSO_BEANS && water_quantity >= ESPRESSO_WATER) 
+        if (beans_quantity >= ESPRESSO_BEANS && water_quantity >= ESPRESSO_WATER)
         {
             printf("1. Espresso (AED %.2f) - Available\n", ESPRESSO_PRICE);
         } 
@@ -109,7 +109,8 @@ void order_coffee()
         {
             printf("2. Cappuccino (AED %.2f) - Unavailable\n", CAPPUCCINO_PRICE);
         }
-        if (beans_quantity >= MOCHA_BEANS && water_quantity >= MOCHA_WATER && syrup_quantity >= MOCHA_SYRUP)
+        
+        if (beans_quantity >= MOCHA_BEANS && water_quantity >= MOCHA_WATER && syrup_quantity >= MOCHA_SYRUP) 
         {
             printf("3. Mocha (AED %.2f) - Available\n", MOCHA_PRICE);
         } 
@@ -134,8 +135,8 @@ void order_coffee()
             return;
         }
 
-        / Determine coffee choice and check for available ingredients
-        if (coffee_choice == 1 && beans_quantity >= ESPRESSO_BEANS && water_quantity >= ESPRESSO_WATER)
+        // Determine coffee choice and check for available ingredients
+        if (coffee_choice == 1 && beans_quantity >= ESPRESSO_BEANS && water_quantity >= ESPRESSO_WATER) 
         {
             total_price = ESPRESSO_PRICE;
             beans_used = ESPRESSO_BEANS;
@@ -143,7 +144,7 @@ void order_coffee()
             milk_used = ESPRESSO_MILK;
             syrup_used = ESPRESSO_SYRUP;
         } 
-        else if (coffee_choice == 2 && beans_quantity >= CAPPUCCINO_BEANS && water_quantity >= CAPPUCCINO_WATER && milk_quantity >= CAPPUCCINO_MILK)
+        else if (coffee_choice == 2 && beans_quantity >= CAPPUCCINO_BEANS && water_quantity >= CAPPUCCINO_WATER && milk_quantity >= CAPPUCCINO_MILK) 
         {
             total_price = CAPPUCCINO_PRICE;
             beans_used = CAPPUCCINO_BEANS;
@@ -168,55 +169,46 @@ void order_coffee()
         printf("You selected: Coffee %d (AED %.2f). Confirm? (1 for Yes, 0 for No): ", coffee_choice, total_price);
         int confirm;
         scanf("%d", &confirm);
-        if (confirm != 1)
+        if (confirm != 1) 
         {
             continue;
         }
- 
-         // Payment process
-         float amount_paid = 0;
+
+        // Payment process
+        float amount_paid = 0;
         while (amount_paid < total_price) 
         {
-        printf("Insert coin (1 or 0.5 AED): ");
-        float payment_choice;
-        if (scanf("%f", &payment_choice) != 1) 
-        {
-         printf("Invalid input! Please enter a valid coin.\n");
-         while(getchar() != '\n'); // Clear invalid input
-         continue;
+            printf("Insert coin (1 or 0.5 AED): ");
+            float payment_choice;
+            if (scanf("%f", &payment_choice) != 1) {
+                printf("Invalid input! Please enter a valid coin.\n");
+                while(getchar() != '\n'); // Clear invalid input
+                continue;
+            }
+            if (payment_choice == 1.0 || payment_choice == 0.5) {
+                amount_paid += payment_choice;
+            } else {
+                printf("Invalid coin! Please collect your invalid coin.\n");
+            }
         }
-     if (payment_choice == 1.0 || payment_choice == 0.5)
-      {
-         amount_paid += payment_choice;
-      } 
-      else 
-      {
-         printf("Invalid coin! Please collect your invalid coin.\n");
-      }
- }
-    // Update quantities and print receipt
-    beans_quantity -= beans_used;
-    water_quantity -= water_used;
-    milk_quantity -= milk_used;
-    syrup_quantity -= syrup_used;
-    total_amount += total_price;
 
-    printf("You bought a cup of coffee for AED %.2f. Amount paid: AED %.2f. Change: AED %.2f\n",total_price, amount_paid, amount_paid - total_price);
+        // Update quantities and print receipt
+        beans_quantity -= beans_used;
+        water_quantity -= water_used;
+        milk_quantity -= milk_used;
+        syrup_quantity -= syrup_used;
+        total_amount += total_price;
 
-    // Check thresholds
-    check_thresholds();
-}
+        printf("You bought a cup of coffee for AED %.2f. Amount paid: AED %.2f. Change: AED %.2f\n",
+               total_price, amount_paid, amount_paid - total_price);
+
+        // Check thresholds
+        check_thresholds();
+    }
 }
 
-void admin_mode() 
-{
-char password[20];
 
-printf("Enter admin password: ");
-scanf("%s", password);
 
-if (strcmp(password, ADMIN_PASSWORD) != 0)
-{
-  printf("Incorrect password. Exiting admin mode.\n");
-  return;
-}
+   
+
+     
