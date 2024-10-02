@@ -44,6 +44,7 @@ void replenish_ingredients();
 void change_coffee_price();
 void check_thresholds();
 
+//main function
 int main()
  {
     int choice;
@@ -173,42 +174,22 @@ void order_coffee()
         {
             continue;
         }
+ // Payment process
+ float amount_paid = 0;
+ while (amount_paid < total_price) 
+ {
+     printf("Insert coin (1 or 0.5 AED): ");
+     float payment_choice;
+     if (scanf("%f", &payment_choice) != 1) {
+         printf("Invalid input! Please enter a valid coin.\n");
+         while(getchar() != '\n'); // Clear invalid input
+         continue;
+     }
+     if (payment_choice == 1.0 || payment_choice == 0.5) {
+         amount_paid += payment_choice;
+     } else {
+         printf("Invalid coin! Please collect your invalid coin.\n");
+     }
+ }
 
-        // Payment process
-        float amount_paid = 0;
-        while (amount_paid < total_price) 
-        {
-            printf("Insert coin (1 or 0.5 AED): ");
-            float payment_choice;
-            if (scanf("%f", &payment_choice) != 1) {
-                printf("Invalid input! Please enter a valid coin.\n");
-                while(getchar() != '\n'); // Clear invalid input
-                continue;
-            }
-            if (payment_choice == 1.0 || payment_choice == 0.5) {
-                amount_paid += payment_choice;
-            } else {
-                printf("Invalid coin! Please collect your invalid coin.\n");
-            }
-        }
-
-        // Update quantities and print receipt
-        beans_quantity -= beans_used;
-        water_quantity -= water_used;
-        milk_quantity -= milk_used;
-        syrup_quantity -= syrup_used;
-        total_amount += total_price;
-
-        printf("You bought a cup of coffee for AED %.2f. Amount paid: AED %.2f. Change: AED %.2f\n",
-               total_price, amount_paid, amount_paid - total_price);
-
-        // Check thresholds
-        check_thresholds();
-    }
-}
-
-
-
-   
-
-     
+        
