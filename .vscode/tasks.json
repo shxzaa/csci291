@@ -1,7 +1,7 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include <stdio.h>// used for printf and scanf 
+#include <stdlib.h>//for rand and exit
+#include <string.h>//for string
+#include <time.h>//for formatting time and date funtions
 
 // Constants for coffee types
 #define ESPRESSO_BEANS 8
@@ -174,22 +174,51 @@ void order_coffee()
         {
             continue;
         }
- // Payment process
- float amount_paid = 0;
- while (amount_paid < total_price) 
+    // Payment process
+     float amount_paid = 0;
+    while (amount_paid < total_price) 
  {
      printf("Insert coin (1 or 0.5 AED): ");
-     float payment_choice;
-     if (scanf("%f", &payment_choice) != 1) {
+     float payment_choice;//to store users payment choice
+     if (scanf("%f", &payment_choice) != 1)
+     {
          printf("Invalid input! Please enter a valid coin.\n");
          while(getchar() != '\n'); // Clear invalid input
          continue;
      }
      if (payment_choice == 1.0 || payment_choice == 0.5) {
          amount_paid += payment_choice;
-     } else {
-         printf("Invalid coin! Please collect your invalid coin.\n");
+     } 
+     else 
+     {
+         printf("Invalid coin! Please collect your invalid coin.\n");//the coin is invalid so inform the user to collect it
      }
  }
+ // Update quantities and print receipt
+ beans_quantity -= beans_used;
+ water_quantity -= water_used;
+ milk_quantity -= milk_used;
+ syrup_quantity -= syrup_used;
+ total_amount += total_price;
+
+ printf("You bought a cup of coffee for AED %.2f. Amount paid: AED %.2f. Change: AED %.2f\n",
+        total_price, amount_paid, amount_paid - total_price);
+
+ // Check thresholds
+ check_thresholds();
+}
+}
+void admin_mode()//funtion to handle admin mode access
+ {
+    char password[20];
+    
+    printf("Enter admin password: ");
+    scanf("%s", password);//reading the password from the user
+    
+    if (strcmp(password, ADMIN_PASSWORD) != 0)//comparing the passwords
+     {
+        printf("Incorrect password. Exiting admin mode.\n");
+        return;
+    }
 
         
