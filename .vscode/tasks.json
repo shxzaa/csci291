@@ -121,10 +121,10 @@ void order_coffee()
         }
 
         printf("0. Exit ordering\n");
+
         printf("Select your coffee type: ");
-        
-        // Input validation for coffee choice
-        if (scanf("%d", &coffee_choice) != 1) 
+      
+        if (scanf("%d", &coffee_choice) != 1)   // Input validation for coffee choice
         {
             printf("Invalid input! Please enter a number.\n");
             while(getchar() != '\n'); // Clear invalid input
@@ -133,7 +133,7 @@ void order_coffee()
 
         if (coffee_choice == 0) 
         {
-            return;
+            return;// This allows the user to cancel their coffee order and return to the main menu
         }
 
         // Determine coffee choice and check for available ingredients
@@ -168,57 +168,95 @@ void order_coffee()
         }
 
         printf("You selected: Coffee %d (AED %.2f). Confirm? (1 for Yes, 0 for No): ", coffee_choice, total_price);
-        int confirm;
+        int confirm;//to store the user's confirmation input
         scanf("%d", &confirm);
         if (confirm != 1) 
         {
-            continue;
+            continue; // This allows the user to re-select their coffee choice or exit ordering
         }
+
     // Payment process
      float amount_paid = 0;
     while (amount_paid < total_price) 
- {
+    {
      printf("Insert coin (1 or 0.5 AED): ");
      float payment_choice;//to store users payment choice
      if (scanf("%f", &payment_choice) != 1)
      {
          printf("Invalid input! Please enter a valid coin.\n");
-         while(getchar() != '\n'); // Clear invalid input
-         continue;
+         while(getchar() != '\n'); // Clear the input buffer to remove invalid input
+         continue;// Continue to the next iteration of the while loop
      }
-     if (payment_choice == 1.0 || payment_choice == 0.5) {
+     if (payment_choice == 1.0 || payment_choice == 0.5) 
+     {
          amount_paid += payment_choice;
      } 
      else 
      {
          printf("Invalid coin! Please collect your invalid coin.\n");//the coin is invalid so inform the user to collect it
      }
- }
- // Update quantities and print receipt
- beans_quantity -= beans_used;
- water_quantity -= water_used;
- milk_quantity -= milk_used;
- syrup_quantity -= syrup_used;
- total_amount += total_price;
+    }
+     // Update quantities by decreasing the quantity and printing receipt
+     beans_quantity -= beans_used;
+     water_quantity -= water_used;
+     milk_quantity -= milk_used;
+     syrup_quantity -= syrup_used;
+     total_amount += total_price;
 
- printf("You bought a cup of coffee for AED %.2f. Amount paid: AED %.2f. Change: AED %.2f\n",
-        total_price, amount_paid, amount_paid - total_price);
+     printf("You bought a cup of coffee for AED %.2f. Amount paid: AED %.2f. Change: AED %.2f\n",
+        total_price, amount_paid, amount_paid - total_price);// Print a receipt for the user, showing the details of their purchase
 
- // Check thresholds
- check_thresholds();
-}
-}
-void admin_mode()//funtion to handle admin mode access
+    // Check thresholds to see if any ingredients are low
+     check_thresholds();
+    }
+  }
+  void admin_mode()//funtion to handle admin mode access
  {
-    char password[20];
+    char password[20];// the password holds only upto 20 characters 
     
     printf("Enter admin password: ");
     scanf("%s", password);//reading the password from the user
     
     if (strcmp(password, ADMIN_PASSWORD) != 0)//comparing the passwords
-     {
+    {
         printf("Incorrect password. Exiting admin mode.\n");
         return;
     }
 
+    int admin_choice;//displaying the admin menu
+    while (1) 
+    {
+        printf("\nAdmin Menu:\n");
+        printf("1. Display ingredient quantities and total sales\n");
+        printf("2. Replenish ingredients\n");
+        printf("3. Change coffee prices\n");
+        printf("0. Exit admin mode\n");
+        printf("Enter your choice: ");
         
+        if (scanf("%d", &admin_choice) != 1) // If scanf fails to read an integer, it will not modify admin_choice
+        {
+            printf("Invalid input! Please enter a number.\n");
+            while(getchar() != '\n'); // Clear invalid input
+            continue;
+        }
+        switch (admin_choice) 
+        {
+            case 1:
+                display_quantities();//if admin choice is 1 call the function to display ingredient quantities
+                break;
+            case 2:
+                replenish_ingredients();//if admin choice is 2 call the function to display replenish ingredients
+                break;
+            case 3:
+                change_coffee_price();//if admin choice is  3 call the function to display the change in coffee price
+                break;
+            case 0:
+                return;
+            default:
+                printf("Invalid choice. Please try again.\n");//error message for wrong choice
+        }
+    }
+}
+        
+
+    
