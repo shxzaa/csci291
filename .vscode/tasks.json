@@ -257,6 +257,61 @@ void order_coffee()
         }
     }
 }
-        
+      void display_quantities() 
+{
+    printf("\nCurrent Ingredient Quantities:\n");
+    printf("Coffee Beans: %-12d\n", beans_quantity);
+    printf("Water: %-12d\n", water_quantity);
+    printf("Milk: %-12d\n", milk_quantity);
+    printf("Chocolate Syrup: %-12d\n", syrup_quantity);
+    printf("Total Sales Amount: AED %-12.2f\n", total_amount);
+}
+
+void replenish_ingredients() 
+{
+    // Randomly reset quantities for demonstration
+    srand(time(0));
+    beans_quantity = rand() % 50 + 20; // Reset between 20 and 70
+    water_quantity = rand() % 50 + 20;
+    milk_quantity = rand() % 50 + 20;
+    syrup_quantity = rand() % 50 + 20;
+    printf("Ingredients replenished successfully.\n");
+}
+
+void change_coffee_price() 
+{
+    float new_price;
+
+    // Update price for Espresso
+    printf("Enter new price for Espresso (current: AED %.2f): ", ESPRESSO_PRICE);
+    scanf("%f", &new_price);
+    // In a real implementation, you would store the new price
+    printf("New price for Espresso set to AED %.2f\n", new_price);
+
+    // Repeat for other coffee types
+    printf("Enter new price for Cappuccino (current: AED %.2f): ", CAPPUCCINO_PRICE);
+    scanf("%f", &new_price);
+    printf("New price for Cappuccino set to AED %.2f\n", new_price);
+
+    printf("Enter new price for Mocha (current: AED %.2f): ", MOCHA_PRICE);
+    scanf("%f", &new_price);
+    printf("New price for Mocha set to AED %.2f\n", new_price);
+}
+
+void check_thresholds() 
+{
+    if (beans_quantity <= THRESHOLD_BEANS) {
+        printf("Alert: Coffee beans quantity is low!\n");
+    }
+    if (water_quantity <= THRESHOLD_WATER) {
+        printf("Alert: Water quantity is low!\n");
+    }
+    if (milk_quantity <= THRESHOLD_MILK) {
+        printf("Alert: Milk quantity is low!\n");
+    }
+    if (syrup_quantity <= THRESHOLD_SYRUP) {
+        printf("Alert: Chocolate syrup quantity is low!\n");
+    }
+}  
 
     
